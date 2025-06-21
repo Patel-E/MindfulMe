@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feelings Quiz</title>
+    <style>
+        h1 {
+            font-size: 60px;
+            text-align: center;
+            color: rgb(62, 135, 90);
+            font-family: system-ui, sans-serif;
+        }
+        #home {
+            font-size: 40px;
+            color: rgb(62, 135, 90);
+            font-family: system-ui, sans-serif;
+        }
+        #home:hover {
+            background-color: aliceblue;
+            border-radius: 100px;
+        }
+        body {
+            text-align: center;
+            background-color: rgb(253, 200, 101);
+        }
+        #startQuiz {
+            width: 250px;
+            border-radius: 30px;
+        }
+        #questionPop {
+            color: rgb(166, 105, 185);
+            font-size: 50px;
+        }
+        #startQuiz:hover {
+            transform: scale(1.4);
+            transition: 0.3s;
+        }
+        button.answer-button {
+            width: 380px;
+            padding: 20px;
+            border-radius: 50px;
+            border: 8px solid rgb(255, 162, 0);
+            background-color: rgb(155, 209, 176);
+            font-family: system-ui, sans-serif;
+            font-size: 17px;
+            margin: 0 15px;
+        }
+        button.answer-button:hover {
+            transform: scale(1.3);
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <a href="origin.html" id="home">🏠Home</a>
+    <br><br><br><br>
+
+    <h1 id="feelingsQuiz">FEELINGS QUIZ</h1>
+    <img id="startQuiz" src="startquizbutton.png" alt="Start Quiz">
+    <br><br>
+    <h2 id="questionPop"></h2>
+    <h3 id="passingMessage"></h3>
+    <br>
+    <h3 id="score"></h3>
+
+    <div>
+        <button id="answerButton1" class="answer-button" onclick="checkAnswer(0)"></button>
+        <button id="answerButton2" class="answer-button" onclick="checkAnswer(1)"></button>
+        <button id="answerButton3" class="answer-button" onclick="checkAnswer(2)"></button>
+    </div>
+
+    <script>
+        var answerButton1 = document.getElementById("answerButton1");
+        var answerButton2 = document.getElementById("answerButton2");
+        var answerButton3 = document.getElementById("answerButton3");
+        var feelingsQuiz = document.getElementById("feelingsQuiz");
+        var startQuiz = document.getElementById("startQuiz");
+        let num = 0;
+        let score = 0;
+
+        var question = [
+            { "question": "Lettice is angry. What should she do?", "answers": ["Scream at someone", "Hit someone", "Take a deep breath"], finalAnswer: 2 },
+            { "question": "Rory is sad. What should he do?", "answers": ["Pretend to be happy", "Cry a little and tell an adult", "Yell at someone"], finalAnswer: 1 },
+            { "question": "Stardust feels scared. Should she:", "answers": ["Talk to an adult who can help", "Pretend they are not scared", "Hide and not tell anyone"], finalAnswer: 0 },
+            { "question": "Benny feels left out. What should he do?", "answers": ["Sit by himself and think no one likes him", "Tell a friend or a teacher how he feels", "Be mean to others so they feel left out too"], finalAnswer: 1 },
+            { "question": "Frankie just finished a big puzzle all by themselves. What should they do?", "answers": ["Say they are better than everyone", "Hide it so no one sees", "Feel proud and show someone what they did"], finalAnswer: 2 },
+            { "question": "Lettice feels jealous because her friend got a new toy. What should she do?", "answers": ["Ask if they can also play with the toy", "Snatch the toy off them", "Say something mean to her friend"], finalAnswer: 0 },
+            { "question": "Rory is disappointed he didn’t win the game. What should he do?", "answers": ["Say “good job” to the winner and try again next time", "Say the game was unfair and walk away", "Call the winner mean names"], finalAnswer: 0 }
+        ];
+
+        // Hide buttons initially
+        answerButton1.hidden = true;
+        answerButton2.hidden = true;
+        answerButton3.hidden = true;
+
+        function firstQuestionAppear() {
+            answerButton1.hidden = false;
+            answerButton2.hidden = false;
+            answerButton3.hidden = false;
+            startQuiz.hidden = true;
+            feelingsQuiz.hidden = true;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            let current = question[num];
+            document.getElementById("questionPop").textContent = current.question;
+            answerButton1.textContent = current.answers[0];
+            answerButton2.textContent = current.answers[1];
+            answerButton3.textContent = current.answers[2];
+
+            // Reset button colors
+            answerButton1.style.backgroundColor = "rgb(155, 209, 176)";
+            answerButton2.style.backgroundColor = "rgb(155, 209, 176)";
+            answerButton3.style.backgroundColor = "rgb(155, 209, 176)";
+        }
+
+        function checkAnswer(selectedAnswerIndex) {
+            const correct = question[num].finalAnswer;
+
+            // Always highlight the correct answer green
+            if (correct === 0) answerButton1.style.backgroundColor = "green";
+            if (correct === 1) answerButton2.style.backgroundColor = "green";
+            if (correct === 2) answerButton3.style.backgroundColor = "green";
+
+            // Incorrect answers get red
+            if (correct !== 0) answerButton1.style.backgroundColor = "red";
+            if (correct !== 1) answerButton2.style.backgroundColor = "red";
+            if (correct !== 2) answerButton3.style.backgroundColor = "red";
+
+            // Update score if correct
+            if (selectedAnswerIndex === correct) {
+                score++;
+            }
+
+            num++;
+            setTimeout(scoreCount, 1000); // slight delay to show colors before next question
+        }
+
+        function scoreCount() {
+            if (num >= question.length) {
+                answerButton1.hidden = true;
+                answerButton2.hidden = true;
+                answerButton3.hidden = true;
+                document.getElementById("questionPop").textContent = "Quiz complete! Your score is " + score + "/" + question.length;
+                passedQuiz();
+            } else {
+                showQuestion();
+            }
+        }
+
+        function passedQuiz() {
+            let passingMessage = document.getElementById("passingMessage");
+            if (score < 5) {
+                passingMessage.textContent = "You didn't pass. Sorry! Try again?";
+            } else if (score === 5) {
+                passingMessage.textContent = "You passed with exactly 50% of your answers correct!";
+            } else {
+                passingMessage.textContent = "You passed!";
+            }
+        }
+
+        startQuiz.addEventListener("click", firstQuestionAppear);
+    </script>
+</body>
+</html>
