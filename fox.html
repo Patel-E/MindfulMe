@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fox</title>
+
+    <style>
+        body {text-align: center; background-color: rgb(255, 243, 178);}
+        #playButton {padding: 12px 40px;font-size: large; border-radius: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #stopButton{padding: 12px 50px; font-size: large; border-radius: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #soundOff {padding: 12px 35px; font-size: large; border-radius: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #soundOn {padding: 12px 35px; font-size: large; border-radius: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;} 
+        #playButton:hover {background-color: chartreuse;}
+        #stopButton:hover {background-color: crimson;}
+        #soundOff:hover {background-color: cadetblue;}
+        #soundOn:hover {background-color: cadetblue;}
+        #home:hover {background-color: aliceblue; border-radius:20px;}
+        #home {font-size: 40px; text-align: left; color: rgb(62, 135, 90) ; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+    </style>
+</head>
+<body>
+    <a href="origin.html" id="home" width="50%">🏠Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="stretchySafari.html" id="home" width="50%">Pick a friend</a>
+    <br>
+    <br>
+    <video autoplay width="68%" id="girl1video">
+        <source src="fox.final.mp4" type="video/mp4">
+    </video>
+    <audio>
+        <source src="fox.final.mp4" type="audio/mp4">
+    </audio>
+    <br><br>
+    <button id="playButton" onclick="playVideo()">Play</button> &nbsp;&nbsp;&nbsp;
+    <button id="stopButton" onclick="stopVideo()">Stop</button>&nbsp;&nbsp;&nbsp;
+    <button id="soundOff" onclick="soundoff()">Sound Off</button>&nbsp;&nbsp;&nbsp;
+    <button id="soundOn" onclick="soundon()">Sound On</button>
+
+    <br><br>
+
+    <script>
+        var video = document.getElementById("girl1video");
+        var playButton = document.getElementById("playButton");
+        var stopButton = document.getElementById("stopButton");
+        var soundOff = document.getElementById("soundOff");
+        var soundOn = document.getElementById("soundOn");
+
+        function soundon() {
+            video.muted = false;
+            soundOn.style.backgroundColor = "cadetBlue"
+            soundOff.style.backgroundColor = ""
+        }
+
+        function soundoff() {
+            video.muted = true;
+            soundOff.style.backgroundColor = "cadetBlue"
+            soundOn.style.backgroundColor = ""
+        }
+
+        function playVideo() {
+            video.play();
+            playButton.style.backgroundColor = "chartreuse"
+            stopButton.style.backgroundColor = ""
+            soundOn.disabled = false
+            soundOff.disabled = false
+        }
+        
+        function stopVideo() {
+            video.pause();
+            playButton.style.backgroundColor = ""
+            stopButton.style.backgroundColor = "crimson"
+            soundOn.disabled = true
+            soundOff.disabled = true
+        }
+
+    </script>
+</body>
+</html>
