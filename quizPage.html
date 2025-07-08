@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feelings Quiz</title>
+
+    <style>
+        h1{font-size: 60px; text-align: center; color: rgb(62, 135, 90) ; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        h3 {font-size: 25px; text-align: center; color: rgb(145, 86, 188) ; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #home {font-size: 40px; color: rgb(62, 135, 90) ; font-family: Georgia, 'Times New Roman', Times, serif;}
+        #home:hover {background-color: rgb(192, 219, 244); border-radius: 100px;}
+        body {text-align: center; background-color: rgb(253, 200, 101);}
+        #startQuiz {width: 250px; border-radius: 30px; }
+        #questionPop {color: rgb(166, 105, 185); font-size: 50px;}
+        #startQuiz:hover{transform: scale(1.4); transition: 0.3s;}
+        #answerButton1 {width: 380px; padding: 20px; border-radius: 50px; border: 8px; border-style: solid; border-color: rgb(255, 162, 0); background-color:rgb(155, 209, 176); font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-size: 17px;}
+        #answerButton2 {width: 380px; padding: 20px; border-radius: 50px; border: 8px; border-style: solid; border-color: rgb(255, 162, 0); background-color:rgb(155, 209, 176); font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-size: 17px;}
+        #answerButton3 {width: 380px; padding: 20px; border-radius: 50px; border: 8px; border-style: solid; border-color: rgb(255, 162, 0); background-color:rgb(155, 209, 176); font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-size: 17px;}
+        #answerButton1:hover, #answerButton2:hover, #answerButton3:hover {transform: scale(1.3); transition: 0.3s;}
+        #tryAgain {width: 250px; border-radius: 30px;}
+        #tryAgain:hover {transform: scale(1.4); transition: 0.3s}
+    </style>
+</head>
+<body> <br>
+    <a href="index.html" id="home" width="50%">🏠Home</a> <br> <br><br><br>
+
+    <h1 id="feelingsQuiz">FEELINGS QUIZ</h1>
+    <h3 id="warning">Get an adult to help you with the quiz!</h3><br><br>
+       <img id="startQuiz" src="startquizbutton.png">
+       <br> <br> 
+    <h2 id="questionPop"></h2>  
+    <br>
+    <h3 id="score"></h3> 
+    <a href="quizPage.html"><img id="tryAgain" src="tryagain button.png"></a>
+
+    <div>
+        <button id="answerButton1" onclick= "checkAnswer(0)" class="hover-effect"></button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button id="answerButton2" onclick= "checkAnswer(1)"  class="hover-effect"></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button id="answerButton3" onclick= "checkAnswer(2)" class="hover-effect"></button>
+    </div>
+
+    <script>
+        var tryAgain = document.getElementById("tryAgain")
+        var answerButton1 = document.getElementById("answerButton1")
+        var answerButton2 = document.getElementById("answerButton2")
+        var answerButton3 = document.getElementById("answerButton3")
+        var feelingsQuiz = document.getElementById("feelingsQuiz")
+        var warning = document.getElementById("warning")
+        var finalAnswer = document.getElementById("finalAnswer")
+        var startQuiz = document.getElementById("startQuiz") 
+        let num = 0 
+        let score = 0    
+
+        var question = [{  // iterates through a list of questions and answers, all this information held within a variable.
+            "question": "Lettice is angry. What should she do?", "answers": ["Scream at someone", "Hit someone","Take a deep breath"], finalAnswer: 2 // tells the computer what the finalanswer actually was out of the three options store in the list
+        }, {
+            "question": "Rory is sad. What should he do?",  "answers": ["Pretend to be happy", "Cry a little and tell an adult", "Yell at someone"], finalAnswer: 1
+        }, {
+            "question": "Stardust feels scared. Should she:", "answers": ["Talk to an adult who can help","Pretend they are not scared","Hide and not tell anyone"], finalAnswer: 0
+        },{
+            "question": "Benny feels left out. What should he do?", "answers": ["Sit by himself and think no one likes him","Tell a friend or a teacher how he feels", "Be mean to others so they feel left out too"], finalAnswer: 1
+        },{
+            "question": "Frankie just finished a big puzzle all by themselves. What should they do?",  "answers": ["Say they are better than everyone", "Hide it so no one sees", "Feel proud and show someone what they did"], finalAnswer: 2
+        },{
+            "question": "Lettice feels jealous because her friend got a new toy. What should she do?", "answers": ["Ask if she can also play with the toy", "Snatch the toy off them", "Say something mean to her friend"], finalAnswer: 0
+        },{
+            "question": "Rory is disappointed he didn’t win the game. What should he do?", "answers": ["Say “good job” to the winner and try again next time", "Say the game was unfair and walk away", "Call the winner mean names"], finalAnswer: 0
+        }];
+
+        answerButton1.hidden = true 
+        answerButton2.hidden = true
+        answerButton3.hidden = true
+        tryAgain.hidden = true
+
+        function firstQuestionAppear(){
+            answerButton1.hidden = false // shows the three buttons with the answer
+            answerButton2.hidden = false
+            answerButton3.hidden = false
+
+            questionPop.textContent = question[num].question // shows the question
+            startQuiz.hidden = true 
+            feelingsQuiz.hidden= true 
+            warning.hidden = true // makes the header telling kids to get help on the quiz disappear
+            tryAgain.hidden = true
+
+            answerButton1.textContent = question[num].answers[0]
+            answerButton2.textContent = question[num].answers[1]
+            answerButton3.textContent = question[num].answers[2]
+        }
+
+        function checkAnswer(selectedAnswerIndex){
+            let correct = question[num].finalAnswer // sets up the correct variable by telling the computer that the correct answer will be the one which is read as the finalAnswer in the iterative list
+
+            if (correct=== 0) { // these three if statements allow the buttons to change colour based on what the correct answer is.
+                answerButton1.style.backgroundColor = "green"
+                answerButton2.style.backgroundColor = "red"
+                answerButton3.style.backgroundColor = "red"
+            
+            }
+            if (correct=== 1) {
+                answerButton1.style.backgroundColor = "red"
+                answerButton2.style.backgroundColor = "green"
+                answerButton3.style.backgroundColor = "red"
+            }
+
+            if (correct=== 2) {
+                answerButton1.style.backgroundColor = "red"
+                answerButton2.style.backgroundColor = "red"
+                answerButton3.style.backgroundColor = "green"
+            }
+    
+
+
+
+            if (selectedAnswerIndex === question[num].finalAnswer) { // if the answer which the user selects is the same answer which is stated in the iterative list as the correct answer, the score will add one to itself
+                score++;  
+            }
+              num++;  // the quiz then moves on to the next question, the number variable increasing by one to allow the next question to be displayed   
+              setTimeout(scoreCount, 1100) // allows the colours to remain for 1100 milliseconds (1.1 seconds) before returning back to their original colour
+        }
+
+    function scoreCount(){
+        if (num >= question.length) { // if the number read by the computer of the number variable is larger than or equal to the number of questions there are in the iterative list, the three answers buttons will be hidden
+            answerButton1.hidden = true
+            answerButton2.hidden = true
+            answerButton3.hidden = true
+
+            questionPop.textContent = "You finished! You got " + score +"/"+ question.length + " strategies right!" // a header will pop up and display this text, the score varaible and question length variables being part of this text as it reads what score the user got. it also has the question length variable instead of text just in case the amount of questions changes if this code is altered in the future.
+            tryAgain.hidden = false // allows the try again button to appear and be used
+
+
+    } else {
+        questionPop.textContent = question[num].question;
+        answerButton1.textContent = question[num].answers[0]
+        answerButton2.textContent = question[num].answers[1]
+        answerButton3.textContent = question[num].answers[2]
+
+        answerButton1.style.backgroundColor = ""
+        answerButton2.style.backgroundColor = ""
+        answerButton3.style.backgroundColor = ""
+    }
+} 
+    
+
+
+    startQuiz.addEventListener("click", firstQuestionAppear)
+    submitButton.addEventListener("click", scoreCount)
+
+    </script>
+  
+</body>
+</html>
